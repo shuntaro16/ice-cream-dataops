@@ -7,6 +7,7 @@ from cognite.client.data_classes import ExtractionPipelineRun
 from cognite.client.data_classes.data_modeling import NodeId, ViewId
 from cognite.client.data_classes.data_modeling.cdm.v1 import CogniteAsset, CogniteTimeSeries
 from cognite.client.data_classes.filters import Prefix, ContainsAny
+from cognite.client.data_classes import ExtractionPipelineRunWrite  
 
 from ice_cream_factory_api import IceCreamFactoryAPI
 
@@ -75,14 +76,13 @@ def get_time_series_for_site(client: CogniteClient, site):
     return time_series
 
 
-def report_ext_pipe(client: CogniteClient, status, message=None):
-    ext_pipe_run = ExtractionPipelineRun(
-        extpipe_external_id="ep_icapi_datapoints",
-        status=status,
-        message=message
-    )
-
-    client.extraction_pipelines.runs.create(run=ext_pipe_run)
+def report_ext_pipe(client: CogniteClient, status, message=None):  
+    ext_pipe_run = ExtractionPipelineRunWrite(  
+        extpipe_external_id="ep_icapi_datapoints",  
+        status=status,  
+        message=str(message) if message is not None else None  
+    )  
+    client.extraction_pipelines.runs.create(run=ext_pipe_run)  
 
 def handle(client: CogniteClient = None, data=None):
     report_ext_pipe(client, "seen")
