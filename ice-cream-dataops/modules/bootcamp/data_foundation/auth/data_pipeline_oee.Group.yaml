@@ -59,7 +59,3 @@ capabilities:
       actions: [READ, WRITE]
       scope:
         all: {}
-  - workflowOrchestrationAcl:
-      actions: [READ, WRITE]
-      scope:
-        all: {}
